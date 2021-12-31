@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  app:
+    build: .
+    tty: true
+    volumes:
+      - type: bind
+        source: .
+        target: /usr/src/app/app
+        consistency: delegated
