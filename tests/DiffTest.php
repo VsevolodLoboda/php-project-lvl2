@@ -10,47 +10,41 @@ use function Diff\Core\genDiff;
 
 class DiffTest extends TestCase
 {
-    public function testFlatStructure(): void
-    {
-        $structure1 = json_decode(
-            file_get_contents($this->getFixturePath('file1.1.json')),
-            true
-        );
-        $structure2 = json_decode(
-            file_get_contents($this->getFixturePath('file1.2.json')),
-            true
-        );
-
-        $diffTree = createDiffTree($structure1, $structure2);
-
-        $this->assertEquals(
-            json_encode($diffTree),
-            file_get_contents($this->getFixturePath('diff1_raw.json'))
-        );
-    }
-
-    public function testFlatStructureStylized(): void
+    public function testStructureJson(): void
     {
         $diffString = genDiff(
             $this->getFixturePath('file1.1.json'),
             $this->getFixturePath('file1.2.json'),
-            Formatter::Stylized
         );
 
         $this->assertEquals(
             $diffString,
-            file_get_contents($this->getFixturePath('diff1.stylized'))
+            file_get_contents($this->getFixturePath('diff1.json'))
+        );
+    }
+
+    public function testStructureStylish(): void
+    {
+        $diffString = genDiff(
+            $this->getFixturePath('file1.1.json'),
+            $this->getFixturePath('file1.2.json'),
+            Formatter::Stylish
+        );
+
+        $this->assertEquals(
+            $diffString,
+            file_get_contents($this->getFixturePath('diff1.stylish'))
         );
 
         $diffString2 = genDiff(
             $this->getFixturePath('file1.1.yaml'),
             $this->getFixturePath('file1.2.yaml'),
-            Formatter::Stylized
+            Formatter::Stylish
         );
 
         $this->assertEquals(
             $diffString2,
-            file_get_contents($this->getFixturePath('diff1.stylized'))
+            file_get_contents($this->getFixturePath('diff1.stylish'))
         );
     }
 

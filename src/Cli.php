@@ -23,7 +23,7 @@ function run()
     print_r(genDiff($command->firstFile, $command->secondFile, match ($command->format) {
         'plain' => Formatter::PlainText,
         'json' => Formatter::Json,
-        default => Formatter::Stylized
+        default => Formatter::Stylish
     }));
 }
 

@@ -19,12 +19,12 @@ function getParserInstance(string $fileExtension): callable
     };
 }
 
-function parseJson(string $data): array
+function parseJson(string $data): object
 {
-    return json_decode($data, true);
+    return json_decode($data);
 }
 
-function parseYaml(string $data): array
+function parseYaml(string $data): object
 {
-    return Yaml::parse($data);
+    return Yaml::parse($data, Yaml::PARSE_OBJECT_FOR_MAP);
 }

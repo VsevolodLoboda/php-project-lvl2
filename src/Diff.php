@@ -10,12 +10,12 @@ use Exception;
 use function Diff\Formatter\jsonOutputFormatter;
 use function Diff\Formatter\textOutputFormatter;
 use function Diff\Parser\getParserInstance;
-use function Diff\Formatter\stylizedOutputFormatter;
+use function Diff\Formatter\stylishOutputFormatter;
 
 enum Formatter: string
 {
     case Json = 'json';
-    case Stylized = 'stylized';
+    case Stylish = 'stylish';
     case PlainText = 'text';
 }
 
@@ -43,27 +43,27 @@ function genDiff(string $filePath1, string $filePath2, Formatter $formatter = Fo
 
     return match ($formatter) {
         Formatter::Json => jsonOutputFormatter($diffTree),
-        Formatter::Stylized => stylizedOutputFormatter($diffTree),
+        Formatter::Stylish => stylishOutputFormatter($diffTree),
         Formatter::PlainText => textOutputFormatter($diffTree)
     };
 }
 
-function createDiffTree(array $structure1, array $structure2): array
+function createDiffTree(object $structure1, object $structure2): array
 {
     $keys = array_unique(
         array_merge(
-            array_keys($structure1),
-            array_keys($structure2)
+            array_keys(get_object_vars($structure1)),
+            array_keys(get_object_vars($structure2))
         )
     );
 
     sort($keys);
 
     return array_map(function ($key) use ($structure1, $structure2) {
-        $val1 = $structure1[$key] ?? null;
-        $val2 = $structure2[$key] ?? null;
+        $val1 = $structure1->$key ?? null;
+        $val2 = $structure2->$key ?? null;
 
-        if (!key_exists($key, $structure1)) {
+        if (!property_exists($structure1, $key)) {
             return [
                 'key' => $key,
                 'val1' => $val2,
@@ -71,7 +71,7 @@ function createDiffTree(array $structure1, array $structure2): array
             ];
         }
 
-        if (!key_exists($key, $structure2)) {
+        if (!property_exists($structure2, $key)) {
             return [
                 'key' => $key,
                 'val1' => $val1,
@@ -79,7 +79,7 @@ function createDiffTree(array $structure1, array $structure2): array
             ];
         }
 
-        if (is_array($val1) && is_array($val2)) {
+        if (is_object($val1) && is_object($val2)) {
             return [
                 'key' => $key,
                 'status' => DiffStatus::Collection,
