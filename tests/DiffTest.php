@@ -41,9 +41,20 @@ class DiffTest extends TestCase
             $diffString,
             file_get_contents($this->getFixturePath('diff1.stylized'))
         );
+
+        $diffString2 = genDiff(
+            $this->getFixturePath('file1.1.yaml'),
+            $this->getFixturePath('file1.2.yaml'),
+            Formatter::Stylized
+        );
+
+        $this->assertEquals(
+            $diffString2,
+            file_get_contents($this->getFixturePath('diff1.stylized'))
+        );
     }
 
-    private function getFixturePath(string $fixtureName): string
+    protected function getFixturePath(string $fixtureName): string
     {
         return __DIR__ . '/fixtures/' . $fixtureName;
     }

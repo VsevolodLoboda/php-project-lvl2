@@ -1,14 +1,15 @@
 <?php
 
-// enum not supported yet: https://github.com/squizlabs/PHP_CodeSniffer/issues/3479
 // @codingStandardsIgnoreFile
+// Enum type not supported yet: https://github.com/squizlabs/PHP_CodeSniffer/issues/3479
 
 namespace Diff\Core;
 
+use Exception;
+
 use function Diff\Formatter\jsonOutputFormatter;
 use function Diff\Formatter\textOutputFormatter;
-use function Diff\Parser\parserFactory;
-use Diff\Parser\Type;
+use function Diff\Parser\getParserInstance;
 use function Diff\Formatter\stylizedOutputFormatter;
 
 enum Formatter: string
@@ -27,21 +28,17 @@ enum DiffStatus: string
     case Collection = 'collection';
 }
 
+/**
+ * @throws Exception
+ */
 function genDiff(string $filePath1, string $filePath2, Formatter $formatter = Formatter::Json): string
 {
-    $ext1 = pathinfo($filePath1)['extension'];
-    $ext2 = pathinfo($filePath2)['extension'];
-
-    $getType = function (string $ext) {
-        return match ($ext) {
-            'json' => Type::Json,
-            'yaml', 'yml' => Type::Yaml
-        };
-    };
+    $ext1 = strtolower(pathinfo($filePath1)['extension']);
+    $ext2 = strtolower(pathinfo($filePath2)['extension']);
 
     $diffTree = createDiffTree(
-        parserFactory($getType($ext1))(file_get_contents($filePath1)),
-        parserFactory($getType($ext2))(file_get_contents($filePath2)),
+        getParserInstance($ext1)(file_get_contents($filePath1)),
+        getParserInstance($ext2)(file_get_contents($filePath2)),
     );
 
     return match ($formatter) {

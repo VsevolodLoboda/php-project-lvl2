@@ -3,7 +3,11 @@
 namespace Diff\Formatter;
 
 use Diff\Core\DiffStatus;
+use Exception;
 
+/**
+ * @throws Exception
+ */
 function stylizedOutputFormatter(array $diffTree): string
 {
     $recursiveFunction = function (array $diff, int $depth = 0) use (&$recursiveFunction) {
@@ -22,7 +26,7 @@ function stylizedOutputFormatter(array $diffTree): string
                 DiffStatus::Same => "$indent  $key: $val1\n",
                 DiffStatus::Added => "$indent+ $key: $val1\n",
                 DiffStatus::Collection => "$indent  $key: " . $recursiveFunction($collection, $depth + 1),
-                default => throw new \Exception("Unsupported diff status: '$status'")
+                default => throw new Exception("Unsupported diff status: '$status'")
             };
         }, $diff);
 

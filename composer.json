@@ -2,11 +2,14 @@
   "name": "hexlet/code",
   "description": "php-project-lvl2",
   "autoload": {
+    "psr-4": {
+      "Diff\\Tests\\": "tests"
+    },
     "files": [
       "src/Cli.php",
-      "src/Core.php",
-      "src/Parser.php",
-      "src/Formatter.php"
+      "src/Diff.php",
+      "src/Parsers.php",
+      "src/Formatters.php"
     ]
   },
   "authors": [
@@ -21,7 +24,9 @@
   "require": {
     "docopt/docopt": "^1.0",
     "ext-fileinfo": "*",
-    "phpunit/phpunit": "^9.5"
+    "phpunit/phpunit": "^9.5",
+    "symfony/yaml": "^6.0",
+    "adhocore/cli": "^0.9.0"
   },
   "require-dev": {
     "symfony/var-dumper": "^5.4",
