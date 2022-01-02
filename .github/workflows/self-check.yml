@@ -1,0 +1,13 @@
+name: self-check
+on: push
+jobs:
+  code-quality:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: install
+        run: make install
+      - name: lint
+        run: make lint
+      - name: tests
+        run: make test

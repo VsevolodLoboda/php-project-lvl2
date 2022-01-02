@@ -1,5 +1,8 @@
 <?php
 
+// enum not supported yet: https://github.com/squizlabs/PHP_CodeSniffer/issues/3479
+// @codingStandardsIgnoreFile
+
 namespace Diff\Parser;
 
 enum Type
@@ -21,7 +24,7 @@ function parseJson($data)
     return json_decode($data, true);
 }
 
-function parseYaml($data)
+function parseYaml($data): string
 {
-    return '';
+    return (string)$data;
 }

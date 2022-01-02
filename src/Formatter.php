@@ -4,7 +4,7 @@ namespace Diff\Formatter;
 
 use Diff\Core\DiffStatus;
 
-function styleOutputFormatter(array $diff): string
+function stylizedOutputFormatter(array $diffTree): string
 {
     $recursiveFunction = function (array $diff, int $depth = 0) use (&$recursiveFunction) {
         $indent = str_repeat(' ', $depth * 2);
@@ -17,19 +17,29 @@ function styleOutputFormatter(array $diff): string
             $collection = $item['collection'] ?? null;
 
             return match ($status) {
-                DiffStatus::Updated => "{$indent}- {$key}: {$val1}\n$indent+ {$key}: {$val2}\n",
-                DiffStatus::Deleted => "{$indent}- {$key}: {$val1}\n",
-                DiffStatus::Same => "{$indent}  {$key}: {$val1}\n",
-                DiffStatus::Added => "{$indent}+ {$key}: {$val1}\n",
-                DiffStatus::Collection => "{$indent}  ${key}: " . $recursiveFunction($collection, $depth + 1),
-                default => throw new \Exception("Unsupported diff status: '{$status}'")
+                DiffStatus::Updated => "$indent- $key: $val1\n$indent+ $key: $val2\n",
+                DiffStatus::Deleted => "$indent- $key: $val1\n",
+                DiffStatus::Same => "$indent  $key: $val1\n",
+                DiffStatus::Added => "$indent+ $key: $val1\n",
+                DiffStatus::Collection => "$indent  $key: " . $recursiveFunction($collection, $depth + 1),
+                default => throw new \Exception("Unsupported diff status: '$status'")
             };
         }, $diff);
 
         return "{\n" . implode($str) . "$indent}\n";
     };
 
-    return $recursiveFunction($diff);
+    return $recursiveFunction($diffTree);
+}
+
+function jsonOutputFormatter(array $diffTree): string
+{
+    return json_encode($diffTree);
+}
+
+function textOutputFormatter(array $diffTree): string
+{
+    return json_encode($diffTree);
 }
 
 function stringifyArrayItem(array $array, string $key): string

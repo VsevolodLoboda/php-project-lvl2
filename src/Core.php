@@ -1,11 +1,22 @@
 <?php
 
+// enum not supported yet: https://github.com/squizlabs/PHP_CodeSniffer/issues/3479
+// @codingStandardsIgnoreFile
+
 namespace Diff\Core;
 
-use PHP_CodeSniffer\Reports\Diff;
+use function Diff\Formatter\jsonOutputFormatter;
+use function Diff\Formatter\textOutputFormatter;
 use function Diff\Parser\parserFactory;
 use Diff\Parser\Type;
-use function Diff\Formatter\styleOutputFormatter;
+use function Diff\Formatter\stylizedOutputFormatter;
+
+enum Formatter: string
+{
+    case Json = 'json';
+    case Stylized = 'stylized';
+    case PlainText = 'text';
+}
 
 enum DiffStatus: string
 {
@@ -16,7 +27,7 @@ enum DiffStatus: string
     case Collection = 'collection';
 }
 
-function genDiff(string $filePath1, string $filePath2)
+function genDiff(string $filePath1, string $filePath2, Formatter $formatter = Formatter::Json): string
 {
     $ext1 = pathinfo($filePath1)['extension'];
     $ext2 = pathinfo($filePath2)['extension'];
@@ -28,10 +39,16 @@ function genDiff(string $filePath1, string $filePath2)
         };
     };
 
-    return styleOutputFormatter(createDiffTree(
+    $diffTree = createDiffTree(
         parserFactory($getType($ext1))(file_get_contents($filePath1)),
         parserFactory($getType($ext2))(file_get_contents($filePath2)),
-    ));
+    );
+
+    return match ($formatter) {
+        Formatter::Json => jsonOutputFormatter($diffTree),
+        Formatter::Stylized => stylizedOutputFormatter($diffTree),
+        Formatter::PlainText => textOutputFormatter($diffTree)
+    };
 }
 
 function createDiffTree(array $structure1, array $structure2): array

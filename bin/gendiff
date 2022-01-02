@@ -27,6 +27,6 @@ $s2 = [
     ]
 ];
 
-$d1 = genDiff('./tests/fixtures/file1.json', './tests/fixtures/file2.json');
+$d1 = genDiff('./tests/fixtures/file1.1.json', './tests/fixtures/file1.2.json',\Diff\Core\Formatter::Stylized);
 
 echo $d1;
