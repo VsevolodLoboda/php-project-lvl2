@@ -4,6 +4,7 @@ namespace Diff\Tests;
 
 use Diff\Core\Formatter;
 use PHPUnit\Framework\TestCase;
+
 use function Diff\Core\createDiffTree;
 use function Diff\Core\genDiff;
 
