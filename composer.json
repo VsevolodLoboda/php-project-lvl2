@@ -9,7 +9,9 @@
       "src/Cli.php",
       "src/Diff.php",
       "src/Parsers.php",
-      "src/Formatters.php"
+      "src/Formatters/JsonFormatter.php",
+      "src/Formatters/StalishFormatter.php",
+      "src/Formatters/TextFormatter.php"
     ]
   },
   "authors": [

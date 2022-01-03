@@ -1,14 +1,9 @@
 <?php
 
-namespace Diff\Formatter;
+namespace Diff\Formatters;
 
 use Diff\Core\DiffStatus;
 use Exception;
-
-function getIntent(int $depth)
-{
-    return str_repeat(' ', $depth * 2 - 2);
-}
 
 /**
  * @throws Exception
@@ -68,13 +63,7 @@ function stringifyObject(object $obj, int $depth = 1)
     return implode("\n", $lines);
 }
 
-
-function jsonOutputFormatter(array $diffTree): string
+function getIntent(int $depth)
 {
-    return json_encode($diffTree);
-}
-
-function textOutputFormatter(array $diffTree): string
-{
-    return json_encode($diffTree);
+    return str_repeat(' ', $depth * 2 - 2);
 }

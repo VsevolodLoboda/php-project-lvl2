@@ -10,11 +10,11 @@ const SUPPORTED_FORMATS = [
     'json' => ['json']
 ];
 
-function getParserInstance(string $fileExtension): callable
+function parse(string $fileExtension, string $data): object
 {
     return match (true) {
-        in_array($fileExtension, SUPPORTED_FORMATS['json']) => fn($data) => parseJson($data),
-        in_array($fileExtension, SUPPORTED_FORMATS['yaml']) => fn($data) => parseYaml($data),
+        in_array($fileExtension, SUPPORTED_FORMATS['json']) => parseJson($data),
+        in_array($fileExtension, SUPPORTED_FORMATS['yaml']) => parseYaml($data),
         default => throw new Exception("Unable to find parser for file with extension '.{$fileExtension}'. ")
     };
 }

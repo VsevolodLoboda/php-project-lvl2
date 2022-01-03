@@ -7,10 +7,10 @@ namespace Diff\Core;
 
 use Exception;
 
-use function Diff\Formatter\jsonOutputFormatter;
-use function Diff\Formatter\textOutputFormatter;
-use function Diff\Parser\getParserInstance;
-use function Diff\Formatter\stylishOutputFormatter;
+use function Diff\Formatters\jsonOutputFormatter;
+use function Diff\Formatters\stylishOutputFormatter;
+use function Diff\Formatters\textOutputFormatter;
+use function Diff\Parser\parse;
 
 enum Formatter: string
 {
@@ -37,8 +37,8 @@ function genDiff(string $filePath1, string $filePath2, Formatter $formatter = Fo
     $ext2 = strtolower(pathinfo($filePath2)['extension']);
 
     $diffTree = createDiffTree(
-        getParserInstance($ext1)(file_get_contents($filePath1)),
-        getParserInstance($ext2)(file_get_contents($filePath2)),
+        parse($ext1, file_get_contents($filePath1)),
+        parse($ext2, file_get_contents($filePath2)),
     );
 
     return match ($formatter) {
