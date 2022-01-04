@@ -30,12 +30,16 @@ enum DiffStatus: string
 }
 
 /**
+ * @param string $filePath1
+ * @param string $filePath2
+ * @param Formatter $formatter
+ * @return string
  * @throws Exception
  */
 function genDiff(string $filePath1, string $filePath2, Formatter $formatter = Formatter::Json): string
 {
-    $ext1 = strtolower(pathinfo($filePath1)['extension']);
-    $ext2 = strtolower(pathinfo($filePath2)['extension']);
+    $ext1 = strtolower(extractExtension($filePath2));
+    $ext2 = strtolower(extractExtension($filePath2));
 
     $diffTree = createDiffTree(
         parse($ext1, file_get_contents($filePath1)),
@@ -49,6 +53,11 @@ function genDiff(string $filePath1, string $filePath2, Formatter $formatter = Fo
     };
 }
 
+/**
+ * @param object $structure1
+ * @param object $structure2
+ * @return array
+ */
 function createDiffTree(object $structure1, object $structure2): array
 {
     $keys = array_unique(
@@ -80,6 +89,7 @@ function createDiffTree(object $structure1, object $structure2): array
             ];
         }
 
+        // If both are nested structures - compare them
         if (is_object($val1) && is_object($val2)) {
             return [
                 'key' => $key,
@@ -103,4 +113,15 @@ function createDiffTree(object $structure1, object $structure2): array
             'status' => DiffStatus::Same
         ];
     }, $sortedKeys);
+}
+
+/**
+ * @param string $filePath
+ * @return string
+ * @throws Exception
+ */
+function extractExtension(string $filePath): string
+{
+    $path = pathinfo($filePath);
+    return $path['extension'] ?? throw new Exception("File with unknown extension: $filePath");
 }

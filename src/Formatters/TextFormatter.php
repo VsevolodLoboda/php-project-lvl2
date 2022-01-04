@@ -4,18 +4,29 @@ namespace Diff\Formatters\Text;
 
 use Diff\Core\DiffStatus;
 
+/**
+ * @param array $diffTree
+ * @return string
+ * @throws \Exception
+ */
 function textOutputFormatter(array $diffTree): string
 {
-    $recursiveFunction = function (array $diffTree, string $key = '') use (&$recursiveFunction) {
-
-        $result = array_map(function ($item) use ($recursiveFunction, $key) {
+    /**
+     * @param array $diffTree Diff tree structure
+     * @param string $key Key name, for creating nested keys like "common.setting1"
+     * @return string
+     * @throws \Exception
+     */
+    $generateTextLog = function (array $diffTree, string $key = '') use (&$generateTextLog) {
+        $result = array_map(function ($item) use ($generateTextLog, $key) {
+            // Create nested key
             $nestedKey = $key . $item['key'];
 
             $template = match ($item['status']) {
                 DiffStatus::Added => "Property '%s' was added with value: %s",
                 DiffStatus::Deleted => "Property '%s' was removed",
                 DiffStatus::Updated => "Property '%s' was updated. From %s to %s",
-                DiffStatus::Collection => $recursiveFunction($item['collection'], $nestedKey . "."),
+                DiffStatus::Collection => $generateTextLog($item['collection'], $nestedKey . "."),
                 DiffStatus::Same => '',
                 default => throw new \Exception("Unknown status: " . $item['status']->value)
             };
@@ -31,7 +42,7 @@ function textOutputFormatter(array $diffTree): string
         return implode("\n", array_filter($result, fn($item) => !empty($item)));
     };
 
-    return $recursiveFunction($diffTree);
+    return $generateTextLog($diffTree);
 }
 
 function stringify(mixed $data): string
@@ -45,8 +56,9 @@ function stringify(mixed $data): string
     }
 
     if (is_bool($data) || is_null($data) || is_numeric($data)) {
+        // Trim quotes for non string value
         return strtolower(trim(var_export($data, true), "'"));
     }
 
-    return trim(var_export($data, true));
+    return var_export($data, true);
 }
