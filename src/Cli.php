@@ -3,11 +3,13 @@
 namespace Diff\Cli;
 
 use Ahc\Cli\Input\Command;
-use Diff\Core\Formatter;
 use Exception;
 
 use function Diff\Core\genDiff;
 
+use const Diff\Core\JSON_FORMATTER;
+use const Diff\Core\PLAIN_FORMATTER;
+use const Diff\Core\STYLISH_FORMATTER;
 use const Diff\Parser\SUPPORTED_FORMATS;
 
 /**
@@ -30,9 +32,9 @@ function run()
         validateFilename($file2);
 
         $result = genDiff($file1, $file2, match ($format) {
-            'plain' => Formatter::PlainText,
-            'json' => Formatter::Json,
-            default => Formatter::Stylish
+            'plain' => PLAIN_FORMATTER,
+            'json' => JSON_FORMATTER,
+            default => STYLISH_FORMATTER
         });
 
         print_r("$result\n");

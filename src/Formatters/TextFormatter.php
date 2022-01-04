@@ -2,7 +2,11 @@
 
 namespace Diff\Formatters\Text;
 
-use Diff\Core\DiffStatus;
+use const Diff\Core\DIFF_ADDED;
+use const Diff\Core\DIFF_COLLECTION;
+use const Diff\Core\DIFF_DELETED;
+use const Diff\Core\DIFF_SAME;
+use const Diff\Core\DIFF_UPDATED;
 
 /**
  * @param array $diffTree
@@ -23,11 +27,11 @@ function textOutputFormatter(array $diffTree): string
             $nestedKey = $key . $item['key'];
 
             $template = match ($item['status']) {
-                DiffStatus::Added => "Property '%s' was added with value: %s",
-                DiffStatus::Deleted => "Property '%s' was removed",
-                DiffStatus::Updated => "Property '%s' was updated. From %s to %s",
-                DiffStatus::Collection => $generateTextLog($item['collection'], $nestedKey . "."),
-                DiffStatus::Same => '',
+                DIFF_ADDED => "Property '%s' was added with value: %s",
+                DIFF_DELETED => "Property '%s' was removed",
+                DIFF_UPDATED => "Property '%s' was updated. From %s to %s",
+                DIFF_COLLECTION => $generateTextLog($item['collection'], $nestedKey . "."),
+                DIFF_SAME => '',
                 default => throw new \Exception("Unknown status: " . $item['status']->value)
             };
 

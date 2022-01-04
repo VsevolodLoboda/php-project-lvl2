@@ -2,8 +2,12 @@
 
 namespace Diff\Formatters\Stylish;
 
-use Diff\Core\DiffStatus;
 use Exception;
+use const Diff\Core\DIFF_ADDED;
+use const Diff\Core\DIFF_COLLECTION;
+use const Diff\Core\DIFF_DELETED;
+use const Diff\Core\DIFF_SAME;
+use const Diff\Core\DIFF_UPDATED;
 
 /**
  * @param array $diffTree
@@ -23,11 +27,11 @@ function stylishOutputFormatter(array $diffTree): string
             $status = $item['status'];
 
             return match ($status) {
-                DiffStatus::Updated => "$indent- $key: $val1\n$indent+ $key: $val2\n",
-                DiffStatus::Deleted => "$indent- $key: $val1\n",
-                DiffStatus::Same => "$indent  $key: $val1\n",
-                DiffStatus::Added => "$indent+ $key: $val1\n",
-                DiffStatus::Collection => "$indent  $key: " . $generateStylishView($collection, $depth + 1),
+                DIFF_UPDATED => "$indent- $key: $val1\n$indent+ $key: $val2\n",
+                DIFF_DELETED => "$indent- $key: $val1\n",
+                DIFF_SAME => "$indent  $key: $val1\n",
+                DIFF_ADDED => "$indent+ $key: $val1\n",
+                DIFF_COLLECTION => "$indent  $key: " . $generateStylishView($collection, $depth + 1),
                 default => throw new Exception("Unsupported diff status: '$status'")
             };
         }, $diff);

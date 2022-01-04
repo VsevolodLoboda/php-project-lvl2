@@ -2,10 +2,12 @@
 
 namespace Diff\Tests;
 
-use Diff\Core\Formatter;
 use PHPUnit\Framework\TestCase;
 
 use function Diff\Core\genDiff;
+use const Diff\Core\JSON_FORMATTER;
+use const Diff\Core\PLAIN_FORMATTER;
+use const Diff\Core\STYLISH_FORMATTER;
 
 class DiffTest extends TestCase
 {
@@ -27,7 +29,7 @@ class DiffTest extends TestCase
         $diffString = genDiff(
             $this->getFixturePath('file1.json'),
             $this->getFixturePath('file2.json'),
-            Formatter::Stylish
+            STYLISH_FORMATTER
         );
 
         $this->assertEquals(
@@ -38,7 +40,7 @@ class DiffTest extends TestCase
         $diffString2 = genDiff(
             $this->getFixturePath('file1.yaml'),
             $this->getFixturePath('file2.yaml'),
-            Formatter::Stylish
+            STYLISH_FORMATTER
         );
 
         $this->assertEquals(
@@ -52,7 +54,7 @@ class DiffTest extends TestCase
         $diffString = genDiff(
             $this->getFixturePath('file1.json'),
             $this->getFixturePath('file2.json'),
-            Formatter::PlainText
+            PLAIN_FORMATTER
         );
 
         $this->assertEquals(
@@ -63,7 +65,7 @@ class DiffTest extends TestCase
         $diffString2 = genDiff(
             $this->getFixturePath('file1.yaml'),
             $this->getFixturePath('file2.yaml'),
-            Formatter::PlainText
+            PLAIN_FORMATTER
         );
 
         $this->assertEquals(
@@ -78,17 +80,17 @@ class DiffTest extends TestCase
         $fixture2 = $this->getFixturePath('empty2.json');
 
         $this->assertEquals(
-            genDiff($fixture1, $fixture2, Formatter::Stylish),
+            genDiff($fixture1, $fixture2, STYLISH_FORMATTER),
             "{\n}"
         );
 
         $this->assertEquals(
-            genDiff($fixture1, $fixture2, Formatter::Json),
+            genDiff($fixture1, $fixture2, JSON_FORMATTER),
             '[]'
         );
 
         $this->assertEquals(
-            genDiff($fixture1, $fixture2, Formatter::PlainText),
+            genDiff($fixture1, $fixture2, PLAIN_FORMATTER),
             ''
         );
     }

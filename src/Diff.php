@@ -13,30 +13,26 @@ use function Diff\Formatters\Stylish\stylishOutputFormatter;
 use function Diff\Formatters\Text\textOutputFormatter;
 use function Diff\Parser\parse;
 
-enum Formatter: string
-{
-    case Json = 'json';
-    case Stylish = 'stylish';
-    case PlainText = 'plain';
-}
+// TODO: Replace to enum
+const JSON_FORMATTER = 'json';
+const STYLISH_FORMATTER = 'stylish';
+const PLAIN_FORMATTER = 'plain';
 
-enum DiffStatus: string
-{
-    case Added = 'added';
-    case Deleted = 'deleted';
-    case Updated = 'updated';
-    case Same = 'same';
-    case Collection = 'collection';
-}
+// TODO: Replace to enum
+const DIFF_ADDED = 'added';
+const DIFF_DELETED = 'deleted';
+const DIFF_UPDATED = 'updated';
+const DIFF_SAME = 'same';
+const DIFF_COLLECTION = 'collection';
 
 /**
  * @param string $filePath1
  * @param string $filePath2
- * @param Formatter $formatter
+ * @param string $formatter
  * @return string
  * @throws Exception
  */
-function genDiff(string $filePath1, string $filePath2, Formatter $formatter = Formatter::Json): string
+function genDiff(string $filePath1, string $filePath2, string $formatter = 'json'): string
 {
     $ext1 = strtolower(extractExtension($filePath2));
     $ext2 = strtolower(extractExtension($filePath2));
@@ -47,9 +43,9 @@ function genDiff(string $filePath1, string $filePath2, Formatter $formatter = Fo
     );
 
     return match ($formatter) {
-        Formatter::Json => jsonOutputFormatter($diffTree),
-        Formatter::Stylish => stylishOutputFormatter($diffTree),
-        Formatter::PlainText => textOutputFormatter($diffTree)
+        JSON_FORMATTER => jsonOutputFormatter($diffTree),
+        STYLISH_FORMATTER => stylishOutputFormatter($diffTree),
+        PLAIN_FORMATTER => textOutputFormatter($diffTree)
     };
 }
 
@@ -77,7 +73,7 @@ function createDiffTree(object $structure1, object $structure2): array
             return [
                 'key' => $key,
                 'val1' => $val2,
-                'status' => DiffStatus::Added
+                'status' => DIFF_ADDED
             ];
         }
 
@@ -85,7 +81,7 @@ function createDiffTree(object $structure1, object $structure2): array
             return [
                 'key' => $key,
                 'val1' => $val1,
-                'status' => DiffStatus::Deleted
+                'status' => DIFF_DELETED
             ];
         }
 
@@ -93,7 +89,7 @@ function createDiffTree(object $structure1, object $structure2): array
         if (is_object($val1) && is_object($val2)) {
             return [
                 'key' => $key,
-                'status' => DiffStatus::Collection,
+                'status' => DIFF_COLLECTION,
                 'collection' => createDiffTree($val1, $val2)
             ];
         }
@@ -103,14 +99,14 @@ function createDiffTree(object $structure1, object $structure2): array
                 'key' => $key,
                 'val1' => $val1,
                 'val2' => $val2,
-                'status' => DiffStatus::Updated
+                'status' => DIFF_UPDATED
             ];
         }
 
         return [
             'key' => $key,
             'val1' => $val1,
-            'status' => DiffStatus::Same
+            'status' => DIFF_SAME
         ];
     }, $sortedKeys);
 }
