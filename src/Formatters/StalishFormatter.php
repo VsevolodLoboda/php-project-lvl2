@@ -1,14 +1,14 @@
 <?php
 
-namespace Diff\Formatters\Stylish;
+namespace Differ\Formatters\Stylish;
 
 use Exception;
 
-use const Diff\Core\DIFF_ADDED;
-use const Diff\Core\DIFF_COLLECTION;
-use const Diff\Core\DIFF_DELETED;
-use const Diff\Core\DIFF_SAME;
-use const Diff\Core\DIFF_UPDATED;
+use const Differ\Differ\DIFF_ADDED;
+use const Differ\Differ\DIFF_COLLECTION;
+use const Differ\Differ\DIFF_DELETED;
+use const Differ\Differ\DIFF_SAME;
+use const Differ\Differ\DIFF_UPDATED;
 
 /**
  * @param array $diffTree

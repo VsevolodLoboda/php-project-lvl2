@@ -4,11 +4,11 @@ namespace Diff\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-use function Diff\Core\genDiff;
+use function Differ\Differ\genDiff;
 
-use const Diff\Core\JSON_FORMATTER;
-use const Diff\Core\PLAIN_FORMATTER;
-use const Diff\Core\STYLISH_FORMATTER;
+use const Differ\Differ\JSON_FORMATTER;
+use const Differ\Differ\PLAIN_FORMATTER;
+use const Differ\Differ\STYLISH_FORMATTER;
 
 class DiffTest extends TestCase
 {

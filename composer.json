@@ -2,9 +2,6 @@
   "name": "hexlet/code",
   "description": "php-project-lvl2",
   "autoload": {
-    "psr-4": {
-      "Diff\\Tests\\": "tests"
-    },
     "files": [
       "src/Cli.php",
       "src/Diff.php",

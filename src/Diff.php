@@ -3,15 +3,15 @@
 // @codingStandardsIgnoreFile
 // Enum type not supported yet: https://github.com/squizlabs/PHP_CodeSniffer/issues/3479
 
-namespace Diff\Core;
+namespace Differ\Differ;
 
 use Exception;
 
 use function Functional\sort;
-use function Diff\Formatters\Json\jsonOutputFormatter;
-use function Diff\Formatters\Stylish\stylishOutputFormatter;
-use function Diff\Formatters\Text\textOutputFormatter;
-use function Diff\Parser\parse;
+use function Differ\Formatters\Json\jsonOutputFormatter;
+use function Differ\Formatters\Stylish\stylishOutputFormatter;
+use function Differ\Formatters\Text\textOutputFormatter;
+use function Differ\Parser\parse;
 
 // TODO: Replace to enum
 const JSON_FORMATTER = 'json';

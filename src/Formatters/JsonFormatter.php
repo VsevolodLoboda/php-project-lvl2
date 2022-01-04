@@ -1,6 +1,6 @@
 <?php
 
-namespace Diff\Formatters\Json;
+namespace Differ\Formatters\Json;
 
 /**
  * @param array $diffTree

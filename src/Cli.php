@@ -1,16 +1,16 @@
 <?php
 
-namespace Diff\Cli;
+namespace Differ\Cli;
 
 use Ahc\Cli\Input\Command;
 use Exception;
 
-use function Diff\Core\genDiff;
+use function Differ\Differ\genDiff;
 
-use const Diff\Core\JSON_FORMATTER;
-use const Diff\Core\PLAIN_FORMATTER;
-use const Diff\Core\STYLISH_FORMATTER;
-use const Diff\Parser\SUPPORTED_FORMATS;
+use const Differ\Differ\JSON_FORMATTER;
+use const Differ\Differ\PLAIN_FORMATTER;
+use const Differ\Differ\STYLISH_FORMATTER;
+use const Differ\Parser\SUPPORTED_FORMATS;
 
 /**
  * Run console app
