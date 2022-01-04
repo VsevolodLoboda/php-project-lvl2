@@ -16,7 +16,7 @@ enum Formatter: string
 {
     case Json = 'json';
     case Stylish = 'stylish';
-    case PlainText = 'text';
+    case PlainText = 'plain';
 }
 
 enum DiffStatus: string

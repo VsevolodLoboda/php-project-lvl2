@@ -21,7 +21,7 @@ function run()
     validateFilename($command->secondFile);
 
     $result = genDiff($command->firstFile, $command->secondFile, match ($command->format) {
-        'text' => Formatter::PlainText,
+        'plain' => Formatter::PlainText,
         'json' => Formatter::Json,
         default => Formatter::Stylish
     });
