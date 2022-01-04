@@ -7,6 +7,7 @@ namespace Diff\Core;
 
 use Exception;
 
+use function Functional\sort;
 use function Diff\Formatters\Json\jsonOutputFormatter;
 use function Diff\Formatters\Stylish\stylishOutputFormatter;
 use function Diff\Formatters\Text\textOutputFormatter;
@@ -57,7 +58,7 @@ function createDiffTree(object $structure1, object $structure2): array
         )
     );
 
-    sort($keys);
+    $sortedKeys = sort($keys, fn($item1, $item2) => strcmp($item1, $item2));
 
     return array_map(function ($key) use ($structure1, $structure2) {
         $val1 = $structure1->$key ?? null;
@@ -101,5 +102,5 @@ function createDiffTree(object $structure1, object $structure2): array
             'val1' => $val1,
             'status' => DiffStatus::Same
         ];
-    }, $keys);
+    }, $sortedKeys);
 }
