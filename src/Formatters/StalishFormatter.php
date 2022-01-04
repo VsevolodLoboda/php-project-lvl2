@@ -3,6 +3,7 @@
 namespace Diff\Formatters\Stylish;
 
 use Exception;
+
 use const Diff\Core\DIFF_ADDED;
 use const Diff\Core\DIFF_COLLECTION;
 use const Diff\Core\DIFF_DELETED;

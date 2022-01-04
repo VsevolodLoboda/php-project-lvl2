@@ -5,6 +5,7 @@ namespace Diff\Tests;
 use PHPUnit\Framework\TestCase;
 
 use function Diff\Core\genDiff;
+
 use const Diff\Core\JSON_FORMATTER;
 use const Diff\Core\PLAIN_FORMATTER;
 use const Diff\Core\STYLISH_FORMATTER;
