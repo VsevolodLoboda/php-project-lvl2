@@ -7,9 +7,9 @@ namespace Diff\Core;
 
 use Exception;
 
-use function Diff\Formatters\jsonOutputFormatter;
-use function Diff\Formatters\stylishOutputFormatter;
-use function Diff\Formatters\textOutputFormatter;
+use function Diff\Formatters\Json\jsonOutputFormatter;
+use function Diff\Formatters\Stylish\stylishOutputFormatter;
+use function Diff\Formatters\Text\textOutputFormatter;
 use function Diff\Parser\parse;
 
 enum Formatter: string

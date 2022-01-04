@@ -1,6 +1,6 @@
 <?php
 
-namespace Diff\Formatters;
+namespace Diff\Formatters\Json;
 
 function jsonOutputFormatter(array $diffTree): string
 {

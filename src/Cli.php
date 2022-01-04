@@ -20,11 +20,13 @@ function run()
     validateFilename($command->firstFile);
     validateFilename($command->secondFile);
 
-    print_r(genDiff($command->firstFile, $command->secondFile, match ($command->format) {
-        'plain' => Formatter::PlainText,
+    $result = genDiff($command->firstFile, $command->secondFile, match ($command->format) {
+        'text' => Formatter::PlainText,
         'json' => Formatter::Json,
         default => Formatter::Stylish
-    }));
+    });
+
+    print_r("$result\n");
 }
 
 function validateFilename(string $fileName): void

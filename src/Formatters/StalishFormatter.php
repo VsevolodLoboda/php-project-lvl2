@@ -1,6 +1,6 @@
 <?php
 
-namespace Diff\Formatters;
+namespace Diff\Formatters\Stylish;
 
 use Diff\Core\DiffStatus;
 use Exception;
