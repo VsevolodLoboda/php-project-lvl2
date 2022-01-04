@@ -35,14 +35,15 @@ function genDiff(string $filePath1, string $filePath2, string $formatter = 'styl
     $ext2 = strtolower(extractExtension($filePath2));
 
     $diffTree = createDiffTree(
-        parse($ext1, file_get_contents($filePath1)),
-        parse($ext2, file_get_contents($filePath2)),
+        parse($ext1, readFile($filePath1)),
+        parse($ext2, readFile($filePath2)),
     );
 
     return match ($formatter) {
         JSON_FORMATTER => jsonOutputFormatter($diffTree),
         STYLISH_FORMATTER => stylishOutputFormatter($diffTree),
-        PLAIN_FORMATTER => textOutputFormatter($diffTree)
+        PLAIN_FORMATTER => textOutputFormatter($diffTree),
+        default => throw new Exception("Unknown formatter: $formatter")
     };
 }
 
@@ -106,6 +107,20 @@ function createDiffTree(object $structure1, object $structure2): array
             'status' => DIFF_SAME
         ];
     }, $sortedKeys);
+}
+
+/**
+ * @param string $filePath
+ * @return string
+ * @throws Exception
+ */
+function readFile(string $filePath): string
+{
+    if (!file_exists($filePath)) {
+        throw new Exception("File '$filePath' doesn't exists");
+    }
+
+    return file_get_contents($filePath);
 }
 
 /**

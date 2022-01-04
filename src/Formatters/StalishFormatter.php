@@ -90,7 +90,7 @@ function stringifyObject(object $obj, int $depth = 1): string
  */
 function getIntent(int $depth): string
 {
-    if (!$depth) {
+    if ($depth === 0) {
         return '';
     }
 

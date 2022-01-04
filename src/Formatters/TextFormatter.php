@@ -7,11 +7,12 @@ use const Differ\Differ\DIFF_COLLECTION;
 use const Differ\Differ\DIFF_DELETED;
 use const Differ\Differ\DIFF_SAME;
 use const Differ\Differ\DIFF_UPDATED;
+use Exception;
 
 /**
  * @param array $diffTree
  * @return string
- * @throws \Exception
+ * @throws Exception
  */
 function textOutputFormatter(array $diffTree): string
 {
@@ -19,7 +20,7 @@ function textOutputFormatter(array $diffTree): string
      * @param array $diffTree Diff tree structure
      * @param string $key Key name, for creating nested keys like "common.setting1"
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     $generateTextLog = function (array $diffTree, string $key = '') use (&$generateTextLog) {
         $result = array_map(function ($item) use ($generateTextLog, $key) {
@@ -31,19 +32,19 @@ function textOutputFormatter(array $diffTree): string
                 DIFF_DELETED => "Property '%s' was removed",
                 DIFF_UPDATED => "Property '%s' was updated. From %s to %s",
                 DIFF_COLLECTION => $generateTextLog($item['collection'], $nestedKey . "."),
-                DIFF_SAME => '',
+                DIFF_SAME => null,
                 default => throw new \Exception("Unknown status: " . $item['status']->value)
             };
 
-            return sprintf(
+            return $template ? sprintf(
                 $template,
                 $nestedKey,
                 stringify(array_key_exists('val1', $item) ? $item['val1'] : ''),
                 stringify(array_key_exists('val2', $item) ? $item['val2'] : '')
-            );
+            ) : null;
         }, $diffTree);
 
-        return implode("\n", array_filter($result, fn($item) => !empty($item)));
+        return implode("\n", array_filter($result, fn($item) => !is_null($item)));
     };
 
     return $generateTextLog($diffTree);

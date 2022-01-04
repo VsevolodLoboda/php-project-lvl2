@@ -23,11 +23,14 @@ function run()
         ->option('-f|--format', 'Output format')
         ->parse($_SERVER['argv']);
 
-    try {
-        $file1 = $command->firstFile;
-        $file2 = $command->secondFile;
-        $format = $command->format;
+    [
+        'firstFile' => $file1,
+        'secondFile' => $file2,
+        'format' => $format,
+        'verbosity' => $verbosity
+    ] = $command->values();
 
+    try {
         validateFilename($file1);
         validateFilename($file2);
 
@@ -39,7 +42,7 @@ function run()
 
         print_r("$result\n");
     } catch (Exception $e) {
-        if ($command->verbosity) {
+        if ($verbosity) {
             throw $e;
         }
         print_r(
