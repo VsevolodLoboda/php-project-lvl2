@@ -22,14 +22,8 @@ function stylishOutputFormatter(array $diffTree): string
 
         $str = array_map(function (array $item) use ($depth, $indent, $generateStylishView) {
             $key = stringify($item['key'], $depth);
-            $val1 = stringify(
-                key_exists('val1', $item) ? $item['val1'] : '',
-                $depth
-            );
-            $val2 = stringify(
-                key_exists('val2', $item) ? $item['val2'] : '',
-                $depth
-            );
+            $val1 = key_exists('val1', $item) ? stringify($item['val1'], $depth) : null;
+            $val2 = key_exists('val2', $item) ? stringify($item['val2'], $depth) : null;
             $collection = $item['collection'] ?? null;
             $status = $item['status'];
 
@@ -44,7 +38,7 @@ function stylishOutputFormatter(array $diffTree): string
         }, $diff);
 
         $bracketIntent = getIntent($depth - 1);
-        return "{\n" . implode($str) . $bracketIntent . ($depth === 1 ? '' : ' ') . "}\n";
+        return "{\n" . implode($str) . $bracketIntent . ($depth === 1 ? '' : '  ') . "}\n";
     };
 
     return trim($generateStylishView($diffTree), "\n");
@@ -64,6 +58,10 @@ function stringify(mixed $data, int $depth = 1): string
     if (is_object($data)) {
         $indent = getIntent($depth);
         return "{\n" . stringifyObject($data, $depth + 1) . "\n$indent  }";
+    }
+
+    if (is_string($data)) {
+        return $data;
     }
 
     return strtolower(trim(var_export($data, true), "'"));
