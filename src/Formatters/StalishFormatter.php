@@ -37,7 +37,8 @@ function stylishOutputFormatter(array $diffTree): string
             };
         }, $diff);
 
-        return "{\n" . implode($str) . "$indent}\n";
+        $bracketIntent = getIntent($depth - 1);
+        return "{\n" . implode($str) . "$bracketIntent}\n";
     };
 
     return trim($generateStylishView($diffTree), "\n");
@@ -55,8 +56,8 @@ function stringify(mixed $data, int $depth = 1): string
     }
 
     if (is_object($data)) {
-        $indent = getIntent($depth + 1);
-        return "{\n" . stringifyObject($data, $depth + 1) . "\n$indent}";
+        $indent = getIntent($depth);
+        return "{\n" . stringifyObject($data, $depth + 1) . "\n$indent  }";
     }
 
     return trim(var_export($data, true), "'");
@@ -85,5 +86,9 @@ function stringifyObject(object $obj, int $depth = 1): string
  */
 function getIntent(int $depth): string
 {
-    return str_repeat(' ', $depth * 2 - 2);
+    if (!$depth) {
+        return '';
+    }
+
+    return str_repeat(' ', $depth * 4 - 2);
 }
