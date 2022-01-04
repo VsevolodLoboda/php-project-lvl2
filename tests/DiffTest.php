@@ -17,6 +17,7 @@ class DiffTest extends TestCase
         $diffString = genDiff(
             $this->getFixturePath('file1.json'),
             $this->getFixturePath('file2.json'),
+            JSON_FORMATTER
         );
 
         $this->assertEquals(
