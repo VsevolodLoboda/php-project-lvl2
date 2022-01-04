@@ -2,12 +2,13 @@
 
 namespace Differ\Formatters\Text;
 
+use Exception;
+
 use const Differ\Differ\DIFF_ADDED;
 use const Differ\Differ\DIFF_COLLECTION;
 use const Differ\Differ\DIFF_DELETED;
 use const Differ\Differ\DIFF_SAME;
 use const Differ\Differ\DIFF_UPDATED;
-use Exception;
 
 /**
  * @param array $diffTree
