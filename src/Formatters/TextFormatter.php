@@ -37,7 +37,7 @@ function textOutputFormatter(array $diffTree): string
                 default => throw new \Exception("Unknown status: " . $item['status']->value)
             };
 
-            return $template ? sprintf(
+            return !is_null($template) ? sprintf(
                 $template,
                 $nestedKey,
                 stringify(array_key_exists('val1', $item) ? $item['val1'] : ''),

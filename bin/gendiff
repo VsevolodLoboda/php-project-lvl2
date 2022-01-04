@@ -2,6 +2,12 @@
 
 <?php
 
+use Ahc\Cli\Input\Command;
+use function Differ\Differ\genDiff;
+use const Differ\Differ\JSON_FORMATTER;
+use const Differ\Differ\PLAIN_FORMATTER;
+use const Differ\Differ\STYLISH_FORMATTER;
+
 $autoloadPath1 = __DIR__ . '/../../../autoload.php';
 $autoloadPath2 = __DIR__ . '/../vendor/autoload.php';
 if (file_exists($autoloadPath1)) {
@@ -10,4 +16,33 @@ if (file_exists($autoloadPath1)) {
     require_once $autoloadPath2;
 }
 
-Differ\Cli\run();
+$command = new Command('gendiff', 'Check the difference between json/yaml files');
+$command->arguments('<firstFile> <secondFile>')
+    ->option('-f|--format', 'Output format')
+    ->parse($_SERVER['argv']);
+
+[
+    'firstFile' => $file1,
+    'secondFile' => $file2,
+    'format' => $format,
+    'verbosity' => $verbosity
+] = $command->values();
+
+try {
+    $result = genDiff($file1, $file2, match ($format) {
+        'plain' => PLAIN_FORMATTER,
+        'json' => JSON_FORMATTER,
+        default => STYLISH_FORMATTER
+    });
+    
+    print_r("$result\n");
+} catch (Exception $e) {
+    if ($verbosity) {
+        throw $e;
+    }
+    print_r(
+        'Application error: '
+        . $e->getMessage()
+        . str_repeat("\n", 2)
+    );
+}

@@ -3,7 +3,6 @@
   "description": "php-project-lvl2",
   "autoload": {
     "files": [
-      "src/Cli.php",
       "src/Diff.php",
       "src/Parsers.php",
       "src/Formatters/JsonFormatter.php",
