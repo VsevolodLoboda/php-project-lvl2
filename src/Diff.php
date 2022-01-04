@@ -1,8 +1,5 @@
 <?php
 
-// @codingStandardsIgnoreFile
-// Enum type not supported yet: https://github.com/squizlabs/PHP_CodeSniffer/issues/3479
-
 namespace Differ\Differ;
 
 use Exception;
@@ -32,7 +29,7 @@ const DIFF_COLLECTION = 'collection';
  * @return string
  * @throws Exception
  */
-function genDiff(string $filePath1, string $filePath2, string $formatter = 'json'): string
+function genDiff(string $filePath1, string $filePath2, string $formatter = 'stylish'): string
 {
     $ext1 = strtolower(extractExtension($filePath2));
     $ext2 = strtolower(extractExtension($filePath2));
