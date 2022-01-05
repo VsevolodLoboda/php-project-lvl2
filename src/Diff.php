@@ -8,7 +8,7 @@ use function Functional\sort;
 use function Differ\Formatters\Json\jsonOutputFormatter;
 use function Differ\Formatters\Stylish\stylishOutputFormatter;
 use function Differ\Formatters\Text\textOutputFormatter;
-use function Differ\Parser\parse;
+use function Differ\Parser\parseFile;
 
 // TODO: Replace to enum
 const JSON_FORMATTER = 'json';
@@ -31,12 +31,9 @@ const DIFF_COLLECTION = 'collection';
  */
 function genDiff(string $filePath1, string $filePath2, string $formatter = 'stylish'): string
 {
-    $ext1 = strtolower(extractExtension($filePath2));
-    $ext2 = strtolower(extractExtension($filePath2));
-
     $diffTree = createDiffTree(
-        parse($ext1, readFile($filePath1)),
-        parse($ext2, readFile($filePath2)),
+        parseFile($filePath1),
+        parseFile($filePath2),
     );
 
     return match ($formatter) {
