@@ -20,7 +20,6 @@
     "bin/gendiff"
   ],
   "require": {
-    "ext-fileinfo": "*",
     "phpunit/phpunit": "^9.5",
     "symfony/yaml": "^6.0",
     "adhocore/cli": "^0.9.0",
