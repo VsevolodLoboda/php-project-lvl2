@@ -105,28 +105,3 @@ function createDiffTree(object $structure1, object $structure2): array
         ];
     }, $sortedKeys);
 }
-
-/**
- * @param string $filePath
- * @return string
- * @throws Exception
- */
-function readFile(string $filePath): string
-{
-    if (!file_exists($filePath)) {
-        throw new Exception("File '$filePath' doesn't exists");
-    }
-
-    return file_get_contents($filePath);
-}
-
-/**
- * @param string $filePath
- * @return string
- * @throws Exception
- */
-function extractExtension(string $filePath): string
-{
-    $path = pathinfo($filePath);
-    return $path['extension'] ?? throw new Exception("File with unknown extension: $filePath");
-}
