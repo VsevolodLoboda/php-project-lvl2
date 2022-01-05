@@ -2,7 +2,9 @@
 
 <?php
 
+// I'm using this package instead of suggested since suggested package shows a lot of warnings with php8
 use Ahc\Cli\Input\Command;
+
 use function Differ\Differ\genDiff;
 use const Differ\Differ\JSON_FORMATTER;
 use const Differ\Differ\PLAIN_FORMATTER;
