@@ -22,7 +22,7 @@ function parseFile(string $data, string $format): object
     return match (true) {
         in_array($ext, SUPPORTED_FORMATS['json'], true) => parseJson($data),
         in_array($ext, SUPPORTED_FORMATS['yaml'], true) => parseYaml($data),
-        default => throw new Exception("Unable to find parser for file with extension '.$ext'")
+        default => throw new Exception("Unable to find parser for format '$ext'")
     };
 }
 
