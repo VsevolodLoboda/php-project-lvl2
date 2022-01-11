@@ -15,7 +15,7 @@ use const Differ\Differ\DIFF_UPDATED;
  * @return string
  * @throws Exception
  */
-function textOutputFormatter(array $diffTree): string
+function textFormatter(array $diffTree): string
 {
     /**
      * @param array $diffTree Diff tree structure

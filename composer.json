@@ -5,9 +5,10 @@
     "files": [
       "src/Diff.php",
       "src/Parsers.php",
-      "src/Formatters/JsonFormatter.php",
-      "src/Formatters/StalishFormatter.php",
-      "src/Formatters/TextFormatter.php"
+      "src/Formatters/Json.php",
+      "src/Formatters.php",
+      "src/Formatters/Stalish.php",
+      "src/Formatters/Text.php"
     ]
   },
   "authors": [

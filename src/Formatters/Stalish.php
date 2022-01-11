@@ -15,10 +15,10 @@ use const Differ\Differ\DIFF_UPDATED;
  * @return string
  * @throws Exception
  */
-function stylishOutputFormatter(array $diffTree): string
+function stylishFormatter(array $diffTree): string
 {
     $generateStylishView = function (array $diff, int $depth = 1) use (&$generateStylishView) {
-        $indent = getIntent($depth);
+        $indent = getIndent($depth);
 
         $str = array_map(function (array $item) use ($depth, $indent, $generateStylishView) {
             $key = stringify($item['key'], $depth);
@@ -37,8 +37,8 @@ function stylishOutputFormatter(array $diffTree): string
             };
         }, $diff);
 
-        $bracketIntent = getIntent($depth - 1);
-        return "{\n" . implode($str) . $bracketIntent . ($depth === 1 ? '' : '  ') . "}\n";
+        $bracketIndent = getIndent($depth - 1);
+        return "{\n" . implode($str) . $bracketIndent . ($depth === 1 ? '' : '  ') . "}\n";
     };
 
     return trim($generateStylishView($diffTree), "\n");
@@ -56,7 +56,7 @@ function stringify(mixed $data, int $depth = 1): string
     }
 
     if (is_object($data)) {
-        $indent = getIntent($depth);
+        $indent = getIndent($depth);
         return "{\n" . stringifyObject($data, $depth + 1) . "\n$indent  }";
     }
 
@@ -76,7 +76,7 @@ function stringifyObject(object $obj, int $depth = 1): string
 {
     $keys = array_keys(get_object_vars($obj));
     $lines = array_map(function ($key) use ($obj, $depth) {
-        $indent = getIntent($depth);
+        $indent = getIndent($depth);
         $value = stringify($obj->$key, $depth);
         return "$indent  $key: $value";
     }, $keys);
@@ -88,7 +88,7 @@ function stringifyObject(object $obj, int $depth = 1): string
  * @param int $depth
  * @return string
  */
-function getIntent(int $depth): string
+function getIndent(int $depth): string
 {
     if ($depth === 0) {
         return '';

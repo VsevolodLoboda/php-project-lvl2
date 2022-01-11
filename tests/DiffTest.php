@@ -1,14 +1,14 @@
 <?php
 
-namespace Diff\Tests;
+namespace Tests;
 
 use PHPUnit\Framework\TestCase;
 
 use function Differ\Differ\genDiff;
 
-use const Differ\Differ\JSON_FORMATTER;
-use const Differ\Differ\PLAIN_FORMATTER;
-use const Differ\Differ\STYLISH_FORMATTER;
+use const Differ\Formatters\JSON_FORMATTER;
+use const Differ\Formatters\PLAIN_FORMATTER;
+use const Differ\Formatters\STYLISH_FORMATTER;
 
 class DiffTest extends TestCase
 {

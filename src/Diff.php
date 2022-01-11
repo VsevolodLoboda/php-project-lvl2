@@ -5,15 +5,8 @@ namespace Differ\Differ;
 use Exception;
 
 use function Functional\sort;
-use function Differ\Formatters\Json\jsonOutputFormatter;
-use function Differ\Formatters\Stylish\stylishOutputFormatter;
-use function Differ\Formatters\Text\textOutputFormatter;
 use function Differ\Parser\parseFile;
-
-// TODO: Replace to enum
-const JSON_FORMATTER = 'json';
-const STYLISH_FORMATTER = 'stylish';
-const PLAIN_FORMATTER = 'plain';
+use function Differ\Formatters\format;
 
 // TODO: Replace to enum
 const DIFF_ADDED = 'added';
@@ -36,12 +29,7 @@ function genDiff(string $filePath1, string $filePath2, string $formatter = 'styl
         parseFile(readFile($filePath2), extractExtension($filePath1)),
     );
 
-    return match ($formatter) {
-        JSON_FORMATTER => jsonOutputFormatter($diffTree),
-        STYLISH_FORMATTER => stylishOutputFormatter($diffTree),
-        PLAIN_FORMATTER => textOutputFormatter($diffTree),
-        default => throw new Exception("Unknown formatter: $formatter")
-    };
+    return format($diffTree, $formatter);
 }
 
 /**
