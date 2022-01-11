@@ -6,9 +6,9 @@
 use Ahc\Cli\Input\Command;
 
 use function Differ\Differ\genDiff;
-use const Differ\Differ\JSON_FORMATTER;
-use const Differ\Differ\PLAIN_FORMATTER;
-use const Differ\Differ\STYLISH_FORMATTER;
+use const Differ\Formatters\PLAIN_FORMATTER;
+use const Differ\Formatters\JSON_FORMATTER;
+use const Differ\Formatters\STYLISH_FORMATTER;
 
 $autoloadPath1 = __DIR__ . '/../../../autoload.php';
 $autoloadPath2 = __DIR__ . '/../vendor/autoload.php';
