@@ -11,17 +11,17 @@ const SUPPORTED_FORMATS = [
 ];
 
 /**
- * @param string $path
+ * @param string $data
+ * @param string $format
  * @return object
  * @throws Exception
  */
-function parseFile(string $path): object
+function parseFile(string $data, string $format): object
 {
-    $ext = strtolower(extractExtension($path));
-
+    $ext = strtolower($format);
     return match (true) {
-        in_array($ext, SUPPORTED_FORMATS['json'], true) => parseJson(readFile($path)),
-        in_array($ext, SUPPORTED_FORMATS['yaml'], true) => parseYaml(readFile($path)),
+        in_array($ext, SUPPORTED_FORMATS['json'], true) => parseJson($data),
+        in_array($ext, SUPPORTED_FORMATS['yaml'], true) => parseYaml($data),
         default => throw new Exception("Unable to find parser for file with extension '.$ext'")
     };
 }
@@ -42,29 +42,4 @@ function parseJson(string $data): object
 function parseYaml(string $data): object
 {
     return Yaml::parse($data, Yaml::PARSE_OBJECT_FOR_MAP);
-}
-
-/**
- * @param string $filePath
- * @return string
- * @throws Exception
- */
-function extractExtension(string $filePath): string
-{
-    $path = pathinfo($filePath);
-    return $path['extension'] ?? throw new Exception("File with unknown extension: $filePath");
-}
-
-/**
- * @param string $filePath
- * @return string
- * @throws Exception
- */
-function readFile(string $filePath): string
-{
-    if (!file_exists($filePath)) {
-        throw new Exception("File '$filePath' doesn't exists");
-    }
-
-    return file_get_contents($filePath);
 }

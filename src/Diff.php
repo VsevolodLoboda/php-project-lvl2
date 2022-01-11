@@ -32,8 +32,8 @@ const DIFF_COLLECTION = 'collection';
 function genDiff(string $filePath1, string $filePath2, string $formatter = 'stylish'): string
 {
     $diffTree = createDiffTree(
-        parseFile($filePath1),
-        parseFile($filePath2),
+        parseFile(readFile($filePath1), extractExtension($filePath1)),
+        parseFile(readFile($filePath2), extractExtension($filePath1)),
     );
 
     return match ($formatter) {
@@ -104,4 +104,30 @@ function createDiffTree(object $structure1, object $structure2): array
             'status' => DIFF_SAME
         ];
     }, $sortedKeys);
+}
+
+/**
+ * @param string $filePath
+ * @return string
+ * @throws Exception
+ */
+function extractExtension(string $filePath): string
+{
+    $path = pathinfo($filePath);
+    return $path['extension'] ?? throw new Exception("Undefined file extension: $filePath");
+}
+
+
+/**
+ * @param string $filePath
+ * @return string
+ * @throws Exception
+ */
+function readFile(string $filePath): string
+{
+    if (!file_exists($filePath)) {
+        throw new Exception("File '$filePath' doesn't exists");
+    }
+
+    return file_get_contents($filePath);
 }
