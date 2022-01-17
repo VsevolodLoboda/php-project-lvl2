@@ -5,7 +5,7 @@ namespace Differ\Differ;
 use Exception;
 
 use function Functional\sort;
-use function Differ\Parser\parseFile;
+use function Differ\Parser\parse;
 use function Differ\Formatters\format;
 
 // TODO: Replace to enum
@@ -25,8 +25,8 @@ const DIFF_COLLECTION = 'collection';
 function genDiff(string $filePath1, string $filePath2, string $formatter = 'stylish'): string
 {
     $diffTree = createDiffTree(
-        parseFile(readFile($filePath1), extractExtension($filePath1)),
-        parseFile(readFile($filePath2), extractExtension($filePath1)),
+        parse(readFile($filePath1), extractExtension($filePath1)),
+        parse(readFile($filePath2), extractExtension($filePath1)),
     );
 
     return format($diffTree, $formatter);
