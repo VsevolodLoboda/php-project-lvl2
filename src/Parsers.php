@@ -16,7 +16,7 @@ const SUPPORTED_FORMATS = [
  * @return object
  * @throws Exception
  */
-function parseFile(string $data, string $format): object
+function parse(string $data, string $format): object
 {
     $ext = strtolower($format);
     return match (true) {
